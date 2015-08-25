@@ -1,0 +1,18 @@
+
+<div class="container centered">
+  <section id="content">
+    <form role="form" ng-submit="vm.sendEmail()">
+      <h1>Email Varification</h1>
+      <div>
+	<input type="text" placeholder="Email" required="" id="username" ng-model="vm.email"/>
+	<p>{{vm.message}}</p>
+      </div>
+      <div>
+	<input class="glyphicon glyphicon-send" type="submit" value="Send" />
+      </div>
+      
+      
+    </form><!-- form -->
+  </section><!-- content -->
+  
+</div><!-- container -->

@@ -1,0 +1,33 @@
+<div class="add_schedule" id="add_schedule_view" role="dialog">
+  <header class="cd-panel-header">
+    <h1>Add Schedule</h1>
+  </header>
+
+  <form ng-submit="addschedule(selectedservice.id,schedule)">
+
+    <label>Number of Schedules</label><input type="number" ng-model="no_of_schedules" placeholder="Enter the number of schedules you want">
+    <br>
+
+    <div id="submit">
+      <span class="glyphicon glyphicon-ok"></span>
+      <input type="button" ng-click="ShowScheduleTab()" value="done">
+    </div>
+    <div ng-show="ScheduleTab">
+      <div ng-repeat=" i in getNum(no_of_schedules) track by $index">
+	Schedule {{$index+1 }}
+	<br>
+	<pre><label>Start Time</label><input type="text" size="2" ng-model="start_hour[$index]" value="00">:<input type="text" size="2" ng-model="start_minute[$index]"><select ng-model="start_AMPM[$index]"><option>AM</option><option>PM</option></select></pre>
+	<pre><label>End Time    </label><input type="text" size="2" ng-model="end_hour[$index]" value="00">:<input type="text" size="2" ng-model="end_minute[$index]"><select ng-model="end_AMPM[$index]"><option>AM</option><option>PM</option></select></pre>
+	<label>Capacity</label><input type="number" ng-model="schedule[$index].capacity">
+	<br>
+	<label>Active</label><input type="checkbox" ng-model="schedule[$index].isactive" >
+	<br>
+      </div>
+
+      <div id="submit">
+	<span class="glyphicon glyphicon-ok"></span>
+	<input type="submit" value="Submit">
+      </div>      
+    </div>
+  </form>
+</div>

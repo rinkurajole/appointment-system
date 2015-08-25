@@ -1,0 +1,12 @@
+{
+  "name": "angular-ui-router.min",
+  "_cacheHeaders": {
+    "Last-Modified": "Wed, 20 May 2015 08:01:16 GMT",
+    "Content-Type": "application/javascript"
+  },
+  "main": "index.js",
+  "_source": "https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js",
+  "_target": "*",
+  "_originalSource": "https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js",
+  "_direct": true
+}

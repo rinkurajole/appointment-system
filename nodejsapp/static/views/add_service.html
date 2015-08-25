@@ -1,0 +1,26 @@
+<div class="add_service" id="add_service_view" role="dialog">
+  <header class="cd-panel-header">
+    <h1>Add Service(s)</h1>
+  </header>
+  <div ng-hide="selectedbranch">
+    Please select a branch first
+  </div>
+  <div ng-show="selectedbranch">
+    <form >
+      <label>Enter number of Services</label><input type="number" ng-model="no_services" placeholder="Enter number of Services to Add">
+
+      <button ng-click="ShowServiceTab()">Submit</button>
+      <div ng-show="ServiceTab">
+	<div ng-repeat="i in getNum(no_services) track by $index">
+	  Service {{$index+1}}
+	  <input ng-model="services[$index]" type="text" > 
+	</div>
+
+	<div id="submit">
+	  <span class="glyphicon glyphicon-ok"></span>
+	  <button type="submit" ng-click="addServices(selectedbranch.id)">Done</button>
+	</div>	
+      </div>
+    </form>
+  </div>
+</div>

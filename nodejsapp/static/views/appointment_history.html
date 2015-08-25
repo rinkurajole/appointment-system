@@ -1,0 +1,21 @@
+<span ng-show="(vm.UserAppointment.appointmentlist | passedDate).length">
+<br><b>Your previous Appointments:</b>
+<table style="margin-top:20px" class="table table-striped" border="1" ng-model="info">
+  <tr>
+    <th>Sr. no</th>
+    <th>Service</th>
+    <th>Branch</th>
+    <th>Date</th>
+    <th>Time Slot</th>
+    <th>Remove</th>
+  </tr>
+  <tr ng-repeat="app in vm.UserAppointment.appointmentlist | passedDate">
+    <td>{{$index+1}}</td>
+    <td>{{app.service}}</td>
+    <td>{{app.branch}}</td>
+    <td>{{app.date}}</td>
+    <td>{{app.time_slot}}</td>
+    <td><a style="color:black;" href="#" ng-click="vm.UserAppointment.cancelAppointment(app.id)"><span class="glyphicon glyphicon-remove"></span></td>
+</table>
+</span>
+<h1 ng-hide="(vm.UserAppointment.appointmentlist | passedDate).length">No history Available</h1>

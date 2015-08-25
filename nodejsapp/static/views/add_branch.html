@@ -1,0 +1,53 @@
+<div class="add_branch" id="add_branch_view" role="dialog_box">
+  <div class="panel-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 style="color:red"><span class="glyphicon glyphicon-map-marker"></span> Add Branch </h4>
+  </div>
+
+  <div class="initial content">
+    <form ng-submit="ShowServiceTab()">
+      <label>Branch Name</label><input type="text" ng-model="name" placeholder="Enter new Branch Name">
+      <br>
+      <label>Number of Services</label><input type="number" ng-model="no_of_services" placeholder="Enter number of services for the specified branch">
+
+      <input type="submit" value="Done" >
+    </form>
+
+    <form ng-submit="addservices(services)">
+      <div ng-show="ServiceTab">
+	<div ng-repeat="i in getNum(no_of_services) track by $index">
+	  Service {{$index+1}}<br>
+	  <input ng-model="services[$index]" type="text" > 
+	</div>
+	<div id="submit">
+	  <span class="glyphicon glyphicon-ok"></span>
+	  <input type="submit" value="Submit">
+	</div>
+      </div>
+    </form>
+  </div>
+
+
+
+  <div class="additional content">
+    <header class="cd-panel-header">
+      <h1>Branch Details</h1>
+    </header>
+    <form>
+      <label>Office E-mail<input type="text" ng-model="Representation.LocationContact.office_email" placeholder="Enter Branch's Official Email"></label>
+      <br>
+      <label>Office Contact<input type="text" ng-model="Representation.LocationContact.office_contact" placeholder="Enter Branch's Contact Number"></label>
+      <br>
+      <label>Personal Email<input type="text" ng-model="Representation.LocationContact.personal_email" placeholder="Enter Branch Manager's Personal Email"></label>
+      <br>
+      <label>Personal Contact<input type="text" ng-model="Representation.LocationContact.personal_contact" placeholder="Enter Branch Manager's Personal Contact"></label>
+      <br>
+      <label>Address<input type="text" ng-model="Representation.LocationContact.address" placeholder="Enter Branch's Address"></label>
+      <div id="submit">
+	<span class="glyphicon glyphicon-ok"></span>
+	<input type="submit" value="Submit">
+      </div>
+    </form>
+  </div>
+</div>
+

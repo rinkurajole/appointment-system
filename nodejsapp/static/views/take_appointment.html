@@ -1,0 +1,49 @@
+<h1>Appointment Form</h1><br>
+<form ng-submit="">
+  <table>
+    <tr>
+      <td>
+	<label>Branch:</label>
+      </td>
+      <td>
+	<input list="Branch" name="branch">
+	<datalist id="Branch">
+	  <option value="Pune">
+	  <option value="Delhi">
+	  <option value="Banglore">
+	</datalist><br><br>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+	<label>Service:</label>
+      </td>
+      <td>
+	<input list="Service" name="service" >
+	<datalist id="Service">
+	  <option value="Software">
+	  <option value="product">
+	  <option value="service">
+	</datalist><br><br>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+	<label>Schedule:</label>
+      </td>
+      <td>
+	<input list="Schedule" name="location">
+	<datalist id="Schedule">
+	  <option value="morning">
+	  <option value="evening">
+	</datalist><br><br>
+      </td>
+    </tr>
+    <td></td>
+    <td>
+      &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="submit">
+    </td>
+  </table>
+</form>
