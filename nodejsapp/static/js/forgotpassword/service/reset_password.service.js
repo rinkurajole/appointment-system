@@ -24,6 +24,7 @@
 	    }).then(updateSuccess,updateError);
 	    function updateSuccess(data, status, headers, config) {
 		console.log(data.data)
+		alert("password updated successfully..");
 		window.location = '/login'
 	    }
 	}

@@ -8,7 +8,7 @@ app.set('view engine', 'jade');
 /*
     Here we are configuring our SMTP Server details.
     STMP is mail server which is responsible for sending and recieving email.
-*/
+ */
 var smtpTransport = nodemailer.createTransport("SMTP",{
     service: "Gmail",
     auth: {
@@ -19,7 +19,7 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
 
 /*------------------SMTP Over-----------------------------*/
 
-var id,mailOptions,host,link;
+var id,rand,mailOptions,host,link;
 
 /*------------------Routing Started ------------------------*/
 
@@ -60,31 +60,11 @@ app.get('/org_register', function(req, res) {
     res.sendFile('views/index.html', {root: __dirname });
 });
 
-app.get('/reset_password', function(req, res) {
-    if((req.protocol+"://"+req.get('host'))==("http://"+host))
-    {
-	console.log("Domain is matched. Information is from Authentic email");
-	if(req.query.id==id)
-	{
-	    console.log("email is verified", req.query.id , id);
-            res.sendFile('views/index.html', {root: __dirname });
-	}
-	else
-	{
-	    console.log("email is not verified", req.query.id , id);
-	    res.end("<h1>Bad Request</h1><br> <strong>Please again visit to lost password link from login page.</strong>");
-	}
-    }
-    else
-    {
-	res.end("<center><h1>Request is from unknown source</h1></center>");
-    }
-});
-
 app.get('/send',function(req,res){
     host=req.get('host');
     link="http://"+host+req.query.link;
     id=req.query.id;
+    rand=req.query.rand;
     mailOptions={
 	to : req.query.to,
 	subject : req.query.subject,
@@ -102,14 +82,37 @@ app.get('/send',function(req,res){
     });
 });
 
+app.get('/reset_password', function(req, res) {
+    if((req.protocol+"://"+req.get('host'))==("http://"+host))
+    {
+	console.log("Domain is matched. Information is from Authentic email");
+	if(req.query.id==id && req.query.pat==rand)
+	{
+	    id=-1;
+	    rand="";
+	    console.log("email is verified", rand , id);
+            res.sendFile('views/index.html', {root: __dirname });
+	}
+	else
+	{
+	    console.log("email is not verified", req.query.id , id);
+	    res.end("<h1>Bad Request:Link expired</h1><br> <strong>Please again visit to lost password link from login page.</strong>");
+	}
+    }
+    else
+    {
+	res.end("<center><h1>Request is from unknown source</h1></center>");
+    }
+});
+
 app.get('/verify',function(req,res){
     console.log(req.protocol+":/"+req.get('host'));
     if((req.protocol+"://"+req.get('host'))==("http://"+host))
     {
 	console.log("Domain is matched. Information is from Authentic email");
-	if(req.query.id==id)
+	if(req.query.id==id && req.query.pat==rand)
 	{
-	    console.log("email is verified", req.query.id , id);
+            console.log("email is verified", req.query.id , id);
             res.sendFile('views/index.html', {root: __dirname });
 	}
 	else

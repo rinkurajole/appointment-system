@@ -34,14 +34,15 @@
 		console.log("Data : ", response.data ,"Status :" ,response.status , "headers : ",response.headers, "config : ", response.config)
 		id = response.data.id;
 		var to = vm.email
-		var link = "/reset_password?id="+id;
+		var rand=Math.random().toString(36).slice(2);
+		var link = '/reset_password?id='+id+'&pat='+rand;
 		var subject = "Link for resetting password";
 		var body = "Hello,<br> To reset your password, Please Click on the given link."
 		vm.message = "Sending E-mail...Please wait";
 		$http({
 	    	    url: '/send',
 	    	    method: 'get',
-	    	    params: {to: to, link: link, id: id, subject: subject, body: body}
+	    	    params: {to: to, link: link, id: id, rand: rand, subject: subject, body: body}
 		}).then(mailSuccessFn, mailErrorFn);
 
 		/**
@@ -56,7 +57,7 @@
 	    	    }
 	    	    else if(response.data=="error")
 	    	    {
-	    		organisationRegistration.message = "Error while sending mail.Please check E-mail Id or network.";
+	    		vm.message = "Error while sending mail.Please check E-mail Id or network and try again.";
 	    	    }
 		}
 
