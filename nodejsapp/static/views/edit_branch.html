@@ -1,0 +1,24 @@
+<div class="edit branch" id="edit_branch_view" role="dialog">
+
+  <header class="cd-panel-header">
+    <h1>Edit Branch</h1>
+  </header>
+
+  <form ng-submit="EditBranch()">
+    <label>Branch Name<input type="text" ng-model="Representation.LocationContact.name" placeholder="Enter Branch's new Name"></label>
+    <br>
+    <label>Office E-mail<input type="text" ng-model="Representation.LocationContact.office_email" placeholder="Enter Branch's Official Email"></label>
+    <br>
+    <label>Office Contact<input type="text" ng-model="Representation.LocationContact.office_contact" placeholder="Enter Branch's Contact Number"></label>
+    <br>
+    <label>Personal Email<input type="text" ng-model="Representation.LocationContact.personal_email" placeholder="Enter Branch Manager's Personal Email"></label>
+    <br>
+    <label>Personal Contact<input type="text" ng-model="Representation.LocationContact.personal_contact" placeholder="Enter Branch Manager's Personal Contact"></label>
+    <br>
+    <label>Address<input type="text" ng-model="Representation.LocationContact.address" placeholder="Enter Branch's Address"></label>
+    <div id="submit">
+      <span class="glyphicon glyphicon-ok"></span>
+      <input type="Submit" value="Edit">
+    </div>    
+  </form>
+</div>

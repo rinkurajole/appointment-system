@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Appointment System</title>
+    <base href = "/" />
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet"  type="text/css">
+    <!-- Custom CSS -->
+    <link href="css/login.css" rel="stylesheet">
+    <link href="css/organisation_home/table.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <link href="css/simple-sidebar.css" rel="stylesheet"  type="text/css">
+    <link rel="stylesheet" type="text/css" href="css/login.css" />
+    <link rel="icon" href="images/alarm_clock.png" type="image/png" />
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+  </head>
+  <body ng-app="organisationApp" style="background-image:url('images/Background-Texture-Images4.jpg'); background-size:cover" ng-cloak>
+    
+    <div style="padding:20px;background:url('images/makeanappt.jpg');background-size: 100% 100%; " ng-controller="organisation_nameController">
+      <h1 style="text-color:black;"><a style="text-decoration:none; color:black "href="#">{{organisation_name}}</a>  <span style="float:right;font-size:25px;margin-top:28px">{{ organisation_tagLine}}</span></h1>
+    </div>    
+    <nav class="navbar-inverse" style="margin-top:0px;padding-top:0px;" ng-controller="navController" ng-show="IsLogin">
+      <div class="container-fluid">
+	<div class="navbar-header" ng-hide="Authentication.getStaff()">
+	  <a style="margin-left:125px; color:white;" class="navbar-brand" ui-sref="appointment"><span class="glyphicon glyphicon-home"></span></a>
+	</div>
+	<div class="navbar-header" style="float:right">
+	  <span style="margin-left:125px; color:white;" class="navbar-brand"><span class="glyphicon glyphicon-user">{{IsLogin = Authentication.getAuthenticatedAccount()}}&nbsp&nbsp&nbsp<a href="#" ng-click="Authentication.logout()">Logout</a></span>
+	</div>
+	<div>
+	  <ul class="nav navbar-nav" ng-hide="Authentication.getStaff()" >
+	    <li><a ui-sref="takeAppointment">Take Appointment</a></li>
+	    <li ><a ui-sref="userProfile">Profile</a></li>
+	    <li><a ui-sref="history">History</a></li>
+	    <li><a>{{Authentication.getstaff()}}</a></li>
+	  </ul>
+	</div>
+      </div>
+    </nav>
+    <!-- Page Content -->
+     
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+	<div class="row">
+	  <div class="col-lg-12">
+            <div class="container" ui-view>  
+	    </div>
+	  </div>
+	</div>
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+    <script type="text/javascript" src="js/authentication/authentication.module.js"></script>
+    <script type="text/javascript" src="js/authentication/controllers/login.controller.js"></script>
+    <script type="text/javascript" src="js/authentication/services/authentication.service.js"></script>
+    <script type="text/javascript" src="js/authentication/controllers/login.controller.js"></script>
+    <script type="text/javascript" src="js/organisationregister/organisationregistration.module.js"></script>
+    <script type="text/javascript" src="js/organisationregister/services/organisationregistration.service.js"></script>
+    <script type="text/javascript" src="js/organisationregister/controllers/organisationregistration.controller.js"></script>	
+    <script type="text/javascript" src="js/organisation_home/organisation_home.module.js"></script>
+    <script type="text/javascript" src="js/organisation_home/controllers/home.controller.js"></script>
+    <script type="text/javascript" src="js/organisation_home/controllers/home.branchController.js"></script>
+    <script type="text/javascript" src="js/organisation_home/controllers/side_views.js"></script>
+    <script type="text/javascript" src="js/organisation_home/services/organisation_home.service.js"></script>
+    <script type="text/javascript" src="js/authentication/controllers/register.controller.js"></script>	
+    <script type="text/javascript" src="js/config.js"></script>
+    <script type="text/javascript" src="js/appointment/user.appointment.js"></script>	
+    <script type="text/javascript" src="js/appointment/controllers/controller.js"></script>
+    <script type="text/javascript" src="js/appointment/controllers/history_controller.js"></script>
+    <script type="text/javascript" src="js/appointment/filters/filter.js"></script>
+    <script type="text/javascript" src="js/forgotpassword/forgot.password.js"></script>
+    <script type="text/javascript" src="js/forgotpassword/controllers/controller.js"></script>
+    <script type="text/javascript" src="js/forgotpassword/service/reset_password.service.js"></script>
+    <script type="text/javascript" src="js/forgotpassword/controllers/reset.password.controller.js"></script>
+    <script type="text/javascript" src="js/user_home/user.home.module.js"></script>
+    <script type="text/javascript" src="js/user_home/controllers/userprofile.controller.js"></script>
+    <script type="text/javascript" src="js/user_home/services/user.home.service.js"></script>	
+    <script type="text/javascript" src="js/appointment/services/userhome.service.js"></script>	
+    <script type="text/javascript" src="js/organisation.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="js/jquery.js"></script>
+   		
+
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+	<script>
+	  $("#menu-toggle").click(function(e) {
+	  e.preventDefault();
+	  $("#wrapper").toggleClass("toggled");
+	  });
+	</script>
+  </body>
+</html>

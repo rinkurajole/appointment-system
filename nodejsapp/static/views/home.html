@@ -1,0 +1,131 @@
+<div class="col-md-10">  
+  <section>
+    <form action="">
+      <table class="tftable" border="1" height="700" width="450">
+	<col width="100">
+	<col width="150">
+	<col width="300">
+	<col width="300">
+	<tbody align="center">
+	  <tr>
+	    <th>Category</th>
+	    <th>Selection</th>
+	    <th>Description</th>
+	    <th>Action</th>
+	  </tr>
+	  <tr>
+	    <td>Branch</td>
+	    <td>
+	      <div align="center" >
+		<select ng-options=" branch.name for branch in Representation.branches track by branch.id" ng-model="selectedbranch" ng-change="getservice(selectedbranch)" >
+		</select>
+	      </div>
+	    </td>
+	    
+	    <td>
+	      <div ng-show="selectedbranch && !Representation.LocationContact ">
+		Please Enter Branch's Details
+	      </div>
+	      <div ng-show="Representation.LocationContact && selectedbranch">
+		<a id="edit_branch" ui-sref="home.editbranch">
+		  <span class="glyphicon glyphicon-pencil"></span>Edit 
+		</a>
+		<br>
+		<a ng-click="Representation.removeBranch(selectedbranch.id)">
+		  <span class="glyphicon glyphicon-remove"></span>Remove
+		</a>
+		<br>
+		
+		<label>Branch Name:</label><br>{{selectedbranch.name}}
+		<br>
+		<label>Office E-mail:</label><br>{{Representation.LocationContact.office_email}}
+		<br>
+		<label>Office Contact:</label><br>{{Representation.LocationContact.office_contact}}
+		<br>
+		<label>Personal Email:</label><br>{{Representation.LocationContact.personal_email}}
+		<br>
+		<label>Personal Contact:</label><br>{{Representation.LocationContact.personal_contact}}
+		<br>
+		<label>Address:</label><br>{{Representation.LocationContact.address}}
+	      </div>
+	      
+	    </td>
+	    <td>
+	      <button id="add_branch" ui-sref="home.addbranch">
+		<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add Branch
+	      </button>
+	      <br>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td>Service</td>
+	    <td>
+	      <div align="center">
+		
+		<select ng-options=" service.name for service in Representation.services" ng-model="selectedservice"  ng-change="getschedule(selectedservice)" >
+		</select>
+	      </div>
+	    </td>
+	    <td></td>
+	    <td>
+	      <button id="add_service" ui-sref="home.addService">
+		<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add Service
+	      </button>
+	      <br>
+	      <a ng-click="Representation.removeService(selectedservice.id)">
+		<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Remove Service
+	    </td>
+
+	  </tr>
+	  <tr>
+	    <td>Schedule</td>
+	    <td>
+	      <div align="center">
+		<select ng-options="(timeslot.start_time+'-'+timeslot.end_time) for timeslot in Representation.timeslots  " ng-model="selectedtimeslot" value="Select Schedule">
+	      </div>
+	    </td>
+	    <td></td>
+	    <td>
+	      <button id="add_schedule" ui-sref="home.addSchedule">
+		<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add Schedule
+	      </button>
+	      <br>
+	      <button id="edit_schedule" ui-sref="home.editSchedule">
+		<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Edit Schedule
+	      </button>
+	      <br>
+	      <a ng-click="Representation.removeSchedule(selectedtimeslot.id)">
+		<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Remove Schedule
+	    </td>
+	  </tr>
+
+	  <tr>
+	    <td>Total Appointments</td>
+	    <td colspan="2">
+	      <div align="center">
+	      </div>
+	    </td>
+	    <td>
+	      <button class="add_schedule_btn">
+		<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add Appointment
+	      </button>
+	      <br>
+	      <button class="edit_schedule_btn">
+		<span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Edit Appointment
+	      </button>
+	      <br>
+	      <button class="add_schedule_btn">
+		<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Remove Appointment
+	      </button>
+
+	    </td>
+	  </tr>
+	</tbody>
+      </table>
+    </form><!-- form -->
+
+  </section><!-- content -->
+</div>
+
+<div class="col-md-2" ui-view>
+</div>

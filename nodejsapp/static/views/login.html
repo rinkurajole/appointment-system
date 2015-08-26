@@ -1,0 +1,19 @@
+<div class="container">
+  <section id="content">
+    <form role="form" ng-submit="vm.login()">
+      <h1>Login Form</h1>
+      <div>
+	<input type="text" placeholder="Email" required="" id="username" ng-model="vm.email"/>
+      </div>
+      <div>
+	<input type="password" placeholder="Password" required="" id="password" ng-model="vm.password"/>
+      </div>
+      <div>
+	<span class="error" ng-show="Authentication.login_error">{{login_error_message}}</span>
+	<input type="submit" value="Log in" />
+	<a ui-sref="lost_password">Lost your password?</a>
+	<a ui-sref="register">Register</a>
+      </div>
+    </form><!-- form -->
+  </section><!-- content -->
+</div><!-- container -->

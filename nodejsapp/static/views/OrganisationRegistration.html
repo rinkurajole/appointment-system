@@ -1,0 +1,53 @@
+<head>
+</head>
+<div class="container">
+  <section id="content">
+    <form role="form" ng-submit="organisationregister()" ng-show="OrganisationRegistration.issubmitform1">
+      <h1 style="color:green;"><span class="glyphicon glyphicon-lock"></span> Organisation Registration </h1>	
+
+      <div class="form-group">
+    	<label for="organisation"><span class="glyphicon glyphicon-eye-open"></span> Organisation Information</label>
+	<br><span class="organisationname" style="color:red" ng-show="OrganisationRegistration.isalready_registered">Organisation already Registered.</span>
+    	<center><input type="text" class="form-control" id="organisationname" placeholder="Enter Organisation Name" ng-model="orgname" required/></center>
+	
+      </div>
+      
+      <p class="terms">
+        <label>
+          <input type="checkbox" name="remember_me" id="remember_me" required/>
+          I accept  <a href="http://www.amazatic.com/">Amazatic</a>Terms & Condition
+        </label>
+      </p>
+      <button type="submit" class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Admin User Registeration</button>
+<br><br>
+      <p><strong>Already a member? <a href="http://localhost:3000/login">Sign In</a></strong></p>
+    </form>
+
+   
+<form role="form" ng-submit="organisationuserregister()" ng-show="OrganisationRegistration.issubmitform2">
+      <h1 style="color:green;"><span class="glyphicon glyphicon-lock"></span> Organisation User Registration </h1>	
+      <div class="form-group">
+    	<label for="usrname"><span class="glyphicon glyphicon-user"></span> Username</label>
+    	<center>
+	<input type="text" class="form-control" id="usrfirstname" placeholder="Enter Your First Name" ng-model="firstname" required/>
+    	<input type="text" class="form-control" id="usrlastname" placeholder="Enter Your Last Name" ng-model="lastname" required/>
+	<input type="text" class="form-control" value="" placeholder="Contact Number" ng-model="contact" required/>
+    	<input type="text" class="form-control" id="usremail" placeholder="Enter Email Id" ng-model="email" required/>
+	<span class="email" style="color:red" ng-show="OrganisationRegistration.isemail_registered">Email already in use.</span></center>
+	<span class="mailexist" style="color:red" ng-show="mailexist">Email already Registered.</span>
+	<span class="message" style="color:green" ng-bind="OrganisationRegistration.message"></span>
+      </div>
+      <div class="form-group">
+    	<label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
+    	<center><input type="password" class="form-control" id="psw" placeholder="Enter password" ng-model="password" required/>
+    	<input type="password" class="form-control" id="psw" placeholder="Re-Enter password" ng-model="confirmpswrd" required/>
+	<span class="pwd" style="color:red" ng-show="ismatched">password and confirm password should be same.</span>
+      </div></center>
+      
+      <button type="submit" class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-off"></span>Complete Registeration</button>
+    <div class="modal-footer">
+	 <br>
+    </div>
+</form>
+  </section><!-- content -->
+</div><!-- container -->

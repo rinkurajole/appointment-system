@@ -1,0 +1,20 @@
+<div class="edit_schedule" id="edit_schedule_view" role="dialog">
+  <header class="cd-panel-header">
+    <h1>Edit Schedule</h1>
+  </header>
+
+  <form ng-submit="editschedule(selectedtimeslot.id,schedule[0],selectedservice.id)">
+
+    <pre><label>Start Time</label><input type="text" size="2" ng-model="start_hour" value="00">:<input type="text" size="2" ng-model="start_minute"><select ng-model="start_AMPM"><option>AM</option><option>PM</option></select></pre>
+    <pre><label>End Time    </label><input type="text" size="2" ng-model="end_hour" value="00">:<input type="text" size="2" ng-model="end_minute"><select ng-model="end_AMPM"><option>AM</option><option>PM</option></select></pre>
+    <label>Capacity</label><input type="number" ng-model="schedule[0].capacity">
+    <br>
+    <label>Active</label><input type="checkbox" ng-model="schedule[0].isactive" >
+    <br>
+
+    <div id="submit">
+      <span class="glyphicon glyphicon-ok"></span>
+      <input type="submit" value="Submit">
+    </div>
+  </form>
+</div>
