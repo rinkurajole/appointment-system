@@ -82,82 +82,107 @@
 	 * @memberOf organisationregistration.services.OrganisationRegistration
 	 */
 	function organisationuserregister(firstname, lastname, contact, email, password) {   
-
-	    var to = email;
-	    var rand=Math.random().toString(36).slice(2);
-	    var link = '/verify?id='+rand+'&pat='+rand+'';
-	    var subject = "Please confirm your organisation admin account";
-	    var body = "Hello,<br> Thank you for sign up. <br> Please Click on the link to verify your email."
-	    organisationRegistration.message = "Sending E-mail...Please wait";
-
+	    
 	    $http({
-		url: '/send',
-		method: 'get',
-		params: {to: to, link: link, id: rand, rand: rand, subject: subject, body: body}
-		// here id: rand is just sended but not used.
-	    }).then(mailSuccessFn, mailErrorFn);
-
+	    	url: 'http://localhost:8000/user/',
+	    	dataType: 'json',
+	    	method: 'POST',
+	    	data: {first_name: firstname, last_name: lastname, contact: contact, email: email, password: password, is_staff: true, is_active: false, is_superuser: true},
+	    	headers: {
+	    	    "Content-Type": "application/json"
+	    	}
+	    }).then(registerSuccessFn, registerErrorFn);
+	    
 	    /**
-	     * @name mailSuccessFn
-	     * @desc Log Server Response to the console also send user registeration request.
+	     * @name registerSuccessFn
+	     * @desc Log the new user in
 	     */
-	    function mailSuccessFn(response) {
-		console.log("Data : ", response.data ,"Status :" ,response.status , "headers : ",response.headers, "config : ", response.config)
-		if(response.data=="sent")
+	    function registerSuccessFn(response) {
+	    	console.log("Data : ", response.data ,"Status :" ,response.status , "headers : ",response.headers, "config : ", response.config)
+		organisationRegistration.isemail_registered=false;
+		if(response.status == 201)
 		{
-		    organisationRegistration.message = "Email is been sent at "+to+" . Please check inbox !";
-		    
 		    $http({
-	    		url: 'http://localhost:8000/user/',
-	    		dataType: 'json',
-	    		method: 'POST',
-	    		data: {first_name: firstname, last_name: lastname, contact: contact, email: email, password: password, is_staff: true, is_active: false, is_superuser: true},
-	    		headers: {
-	    		    "Content-Type": "application/json"
-	    		}
-		    }).then(registerSuccessFn, registerErrorFn);
-		    
-		    /**
-		     * @name registerSuccessFn
-		     * @desc Log the new user in
-		     */
-		    function registerSuccessFn(response) {
-	    		console.log("Data : ", response.data ,"Status :" ,response.status , "headers : ",response.headers, "config : ", response.config)
-			organisationRegistration.isemail_registered=false;
-			if(response.status == 201)
-			{
-			    alert("User Registered Successfully");
-			    window.location = '/login'
+			url: 'http://localhost:8000/user/me/'+email,
+			dataType: 'json',
+			method: 'GET',
+			headers: {
+			    "Content-Type": "application/json"
 			}
-			else
-			{
-			    alert("Error while creating User");
+		    }).then(userDetailsSuccessFn, UserDetailsErrorFn);
+
+		    /**
+		     * @name userDetailsSuccessFn
+		     * @desc fetch userid for resetting password
+		     */
+		    function userDetailsSuccessFn(response) {
+			console.log("Data : ", response.data ,"Status :" ,response.status , "headers : ",response.headers, "config : ", response.config)
+			var id = response.data.id;
+			var to = email;
+			var rand=Math.random().toString(36).slice(2);
+			var link = '/verify?id='+id+'&pat='+rand+'';
+			var subject = "Please confirm your organisation admin account";
+			var body = "Hello,<br> Thank you for sign up. <br> Please Click on the link to verify your email."
+			organisationRegistration.message = "Sending E-mail...Please wait";
+
+			$http({
+			    url: '/send',
+			    method: 'get',
+			    params: {to: to, link: link, id: id, rand: rand, subject: subject, body: body}
+			}).then(mailSuccessFn, mailErrorFn);
+
+			/**
+			 * @name mailSuccessFn
+			 * @desc Log Server Response to the console also send user registeration request.
+			 */
+			function mailSuccessFn(response) {
+			    console.log("Data : ", response.data ,"Status :" ,response.status , "headers : ",response.headers, "config : ", response.config)
+			    if(response.data=="sent")
+			    {
+				organisationRegistration.message = "Email is been sent at "+to+" . Please check inbox !";
+			    }
+			    else if(response.data=="error")
+			    {
+				organisationRegistration.message = "Error while sending mail.Please check E-mail Id.";
+			    }
+			}
+
+			/**
+			 * @name mailErrorFn
+			 * @desc Log Server Response to the console
+			 */
+			function mailErrorFn(data, status, headers, config) {
+			    organisationRegistration.message = "Please enter valid organisation name.!!!";
+			    console.log("Server failure message- "+data.data.name);
 			}
 		    }
+
 		    /**
-		     * @name registerErrorFn
-		     * @desc Log Server Response to the console
+		     * @name userDetailsErrorFn
+		     * @desc log server response to the console
 		     */
-		    function registerErrorFn(data, status, headers, config) {
-			if(data.data.name = "This field must be unique.") {
-			    organisationRegistration.isemail_registered=true;  }
-			else
-			{ organisationRegistration.message = "please provide valid user details.";  }
+		    function UserDetailsErrorFn(response) {
+			console.log("Failed to fetch user details.");
+			console.log("Status :" ,response.status , "headers : ",response.headers, "config : ", response.config);
+			organisationRegistration.message = "you are not registered yet,please register."
 		    }
+		    alert("User Registered Successfully");
+		    window.location = '/login'
 		}
-		else if(response.data=="error")
+		else
 		{
-		    organisationRegistration.message = "Error while sending mail.Please check E-mail Id.";
+		    alert("Error while creating User");
 		}
 	    }
-
 	    /**
-	     * @name mailErrorFn
+	     * @name registerErrorFn
 	     * @desc Log Server Response to the console
 	     */
-	    function mailErrorFn(data, status, headers, config) {
-		organisationRegistration.message = "Please enter valid organisation name.!!!";
-		console.log("Server failure message- "+data.data.name);
+	    function registerErrorFn(data, status, headers, config) {
+		if(data.data.name = "This field must be unique.") {
+		    organisationRegistration.isemail_registered=true;  }
+		else
+		{ organisationRegistration.message = "please provide valid user details.";  }
 	    }
 	}
     }
