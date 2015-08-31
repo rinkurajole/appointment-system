@@ -2,7 +2,8 @@ var express = require('express');
 var nodemailer = require("nodemailer");
 var app = express();
 var path = require('path');
-
+var crypto = require('crypto');
+var url  = require('url')
 app.set('view engine', 'jade');
 
 /*
@@ -17,6 +18,19 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
     }
 });
 
+function encrypt(text){
+    var cipher = crypto.createCipher('aes-256-cbc','d6F3Efeq')
+    var crypted = cipher.update(text,'utf8','hex')
+    crypted += cipher.final('hex');
+    return crypted;
+}
+
+function decrypt(text){
+    var decipher = crypto.createDecipher('aes-256-cbc','d6F3Efeq')
+    var dec = decipher.update(text,'hex','utf8')
+    dec += decipher.final('utf8');
+    return dec;
+}
 /*------------------SMTP Over-----------------------------*/
 
 var id,rand,mailOptions,host,link;
@@ -62,7 +76,9 @@ app.get('/org_register', function(req, res) {
 
 app.get('/send',function(req,res){
     host=req.get('host');
-    link="http://"+host+req.query.link;
+    var param_link = req.query.link;
+    var split_link = param_link.split("?")
+    link="http://"+host+split_link[0]+"?"+encrypt(split_link[1]);
     id=req.query.id;
     rand=req.query.rand;
     mailOptions={
@@ -86,16 +102,21 @@ app.get('/reset_password', function(req, res) {
     if((req.protocol+"://"+req.get('host'))==("http://"+host))
     {
 	console.log("Domain is matched. Information is from Authentic email");
-	if(req.query.id==id && req.query.pat==rand)
+
+	var req_url = req.url;
+	var split_url = req_url.split("?");
+	var decrypt_url = decrypt(split_url[1]);
+	var split_params = decrypt_url.split("&");
+	var split_id = split_params[0].split("=");
+	var split_pat = split_params[1].split("=");
+	
+	if(split_id[1]==id && split_pat[1]==rand)
 	{
-	    id=-1;
-	    rand="";
 	    console.log("email is verified", rand , id);
             res.sendFile('views/index.html', {root: __dirname });
 	}
 	else
 	{
-	    console.log("email is not verified", req.query.id , id);
 	    res.end("<h1>Bad Request:Link expired</h1><br> <strong>Please again visit to lost password link from login page.</strong>");
 	}
     }
@@ -110,14 +131,20 @@ app.get('/verify',function(req,res){
     if((req.protocol+"://"+req.get('host'))==("http://"+host))
     {
 	console.log("Domain is matched. Information is from Authentic email");
-	if(req.query.id==id && req.query.pat==rand)
+	var req_url = req.url;
+	var split_url = req_url.split("?");
+	var decrypt_url = decrypt(split_url[1]);
+	var split_params = decrypt_url.split("&");
+	var split_id = split_params[0].split("=");
+	var split_pat = split_params[1].split("=");
+	
+	if(split_id[1]==id && split_pat[1]==rand)
 	{
             console.log("email is verified", req.query.id , id);
             res.sendFile('views/index.html', {root: __dirname });
 	}
 	else
 	{
-	    console.log("email is not verified", req.query.id , id);
 	    res.end("<h1>Bad Request:Link expired</h1>");
 	}
     }
