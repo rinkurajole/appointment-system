@@ -19,7 +19,7 @@
 		datatype: 'json',
 		method : 'PATCH',
 		data:{
-		    password:password
+		    password: password
 		}
 	    }).then(updateSuccess,updateError);
 	    function updateSuccess(data, status, headers, config) {

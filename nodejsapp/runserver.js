@@ -2,14 +2,15 @@ var express = require('express');
 var nodemailer = require("nodemailer");
 var app = express();
 var path = require('path');
-var crypto = require('crypto');
+var http = require('http');
+var CryptoJS = require('node-cryptojs-aes').CryptoJS;
 var url  = require('url')
 app.set('view engine', 'jade');
 
 /*
-    Here we are configuring our SMTP Server details.
-    STMP is mail server which is responsible for sending and recieving email.
- */
+  Here we are configuring our SMTP Server details.
+  STMP is mail server which is responsible for sending and recieving email.
+*/
 var smtpTransport = nodemailer.createTransport("SMTP",{
     service: "Gmail",
     auth: {
@@ -17,20 +18,6 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
 	pass: "Amazatic"
     }
 });
-
-function encrypt(text){
-    var cipher = crypto.createCipher('aes-256-cbc','d6F3Efeq')
-    var crypted = cipher.update(text,'utf8','hex')
-    crypted += cipher.final('hex');
-    return crypted;
-}
-
-function decrypt(text){
-    var decipher = crypto.createDecipher('aes-256-cbc','d6F3Efeq')
-    var dec = decipher.update(text,'hex','utf8')
-    dec += decipher.final('utf8');
-    return dec;
-}
 /*------------------SMTP Over-----------------------------*/
 
 var id,rand,mailOptions,host,link;
@@ -78,7 +65,7 @@ app.get('/send',function(req,res){
     host=req.get('host');
     var param_link = req.query.link;
     var split_link = param_link.split("?")
-    link="http://"+host+split_link[0]+"?"+encrypt(split_link[1]);
+    link="http://"+host+split_link[0]+"?"+CryptoJS.AES.encrypt(split_link[1],"d6F3Efeq").toString();
     id=req.query.id;
     rand=req.query.rand;
     mailOptions={
@@ -105,7 +92,9 @@ app.get('/reset_password', function(req, res) {
 
 	var req_url = req.url;
 	var split_url = req_url.split("?");
-	var decrypt_url = decrypt(split_url[1]);
+
+	var decrypted = CryptoJS.AES.decrypt(split_url[1], "d6F3Efeq");
+	var decrypt_url = CryptoJS.enc.Utf8.stringify(decrypted);
 	var split_params = decrypt_url.split("&");
 	var split_id = split_params[0].split("=");
 	var split_pat = split_params[1].split("=");
@@ -133,15 +122,16 @@ app.get('/verify',function(req,res){
 	console.log("Domain is matched. Information is from Authentic email");
 	var req_url = req.url;
 	var split_url = req_url.split("?");
-	var decrypt_url = decrypt(split_url[1]);
+	var decrypted = CryptoJS.AES.decrypt(split_url[1], "d6F3Efeq");
+	var decrypt_url = CryptoJS.enc.Utf8.stringify(decrypted);
 	var split_params = decrypt_url.split("&");
 	var split_id = split_params[0].split("=");
 	var split_pat = split_params[1].split("=");
 	
 	if(split_id[1]==id && split_pat[1]==rand)
-	{
-            console.log("email is verified", req.query.id , id);
-            res.sendFile('views/index.html', {root: __dirname });
+	{	
+	    console.log("Account is verified..");
+	    res.sendFile('views/index.html', {root: __dirname });
 	}
 	else
 	{
@@ -161,10 +151,10 @@ app.get('/user/take_appointment', function(req, res) {
 
 /*--------------------Routing Over----------------------------*/
 
-    var server = app.listen(3000, function () {
-	var host = server.address().address;
-	var port = server.address().port;
-	
-	console.log('Example app listening at http://%s:%s', host, port);
-    });
+var server = app.listen(3000, function () {
+    var host = server.address().address;
+    var port = server.address().port;
+    
+    console.log('Example app listening at http://%s:%s', host, port);
+});
 

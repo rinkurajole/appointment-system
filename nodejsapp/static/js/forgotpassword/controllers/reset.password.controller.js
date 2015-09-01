@@ -4,26 +4,27 @@
     angular
         .module('forgot.password')
         .controller('ResetPasswordController', ResetPasswordController);
-          /**
-  * @namespace ForgotPasswordController
-  */
+
+    /**
+     * @namespace ForgotPasswordController
+     */
     function ResetPasswordController(UpdatePassword) {
 	var vm = this;
+	var req_url, decrypt_url, split_params, split_id;
 	vm.resetPassword = function(){
 	    console.log("in reset password", "new_password : ", vm.password, "confirm_pasword : ", vm.confirm_password)
 
 	    var params = {};
 	    if (location.search) {
-		var parts = location.search.substring(1).split('&');
-
-		for (var i = 0; i < parts.length; i++) {
-		    var nv = parts[i].split('=');
-		    if (!nv[0]) continue;
-		    params[nv[0]] = nv[1] || true;
-		}
+		req_url = location.search.substring(1);
+		var decrypted = CryptoJS.AES.decrypt(req_url, "d6F3Efeq");
+		decrypt_url = CryptoJS.enc.Utf8.stringify(decrypted);
+		console.log("Decrypted URLLLLLLL =>"+decrypt_url.id);
+		split_params = decrypt_url.split("&");
+		split_id = split_params[0].split("=");
 	    }
 	    
-	    var id=params.id;
+	    var id = split_id[1];
 	    UpdatePassword.update(id,vm.password);
 
 	}

@@ -16,6 +16,7 @@
 	"serve-favicon": "~2.3.0",
 	"nodemailer": "~0.7.1",
 	"simple-xmpp": "^0.1.92"
+	"node-cryptojs-aes": "~0.4.0"
     },
     "devDependencies": {
 	"grunt": "~0.4.4",
